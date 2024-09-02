@@ -1,0 +1,112 @@
+[
+  {
+    "model": "product.product",
+    "pk": 1,
+    "fields": {
+      "name": "Laptop",
+      "description": "High-performance laptop suitable for gaming and software development.",
+      "price": "1200.00",
+      "in_stock": true
+    }
+  },
+  {
+    "model": "product.product",
+    "pk": 2,
+    "fields": {
+      "name": "Smartphone",
+      "description": "Latest model with high-resolution camera and long-lasting battery.",
+      "price": "999.99",
+      "in_stock": true
+    }
+  },
+  {
+    "model": "product.product",
+    "pk": 3,
+    "fields": {
+      "name": "Headphones",
+      "description": "Noise-cancelling headphones with surround sound.",
+      "price": "199.99",
+      "in_stock": false
+    }
+  },
+  {
+    "model": "product.product",
+    "pk": 4,
+    "fields": {
+      "name": "Tablet",
+      "description": "Portable tablet with high-resolution screen.",
+      "price": "499.99",
+      "in_stock": true
+    }
+  },
+  {
+    "model": "product.product",
+    "pk": 5,
+    "fields": {
+      "name": "Smartwatch",
+      "description": "Wearable device with fitness tracking features.",
+      "price": "199.99",
+      "in_stock": true
+    }
+  },
+  {
+    "model": "product.product",
+    "pk": 6,
+    "fields": {
+      "name": "Gaming Console",
+      "description": "Next-gen gaming console with stunning graphics.",
+      "price": "499.99",
+      "in_stock": true
+    }
+  },
+  {
+    "model": "product.product",
+    "pk": 7,
+    "fields": {
+      "name": "Bluetooth Speaker",
+      "description": "Portable Bluetooth speaker with high-quality sound.",
+      "price": "149.99",
+      "in_stock": true
+    }
+  },
+  {
+    "model": "product.product",
+    "pk": 8,
+    "fields": {
+      "name": "Camera",
+      "description": "High-resolution digital camera for photography enthusiasts.",
+      "price": "799.99",
+      "in_stock": false
+    }
+  },
+  {
+    "model": "product.product",
+    "pk": 9,
+    "fields": {
+      "name": "Monitor",
+      "description": "4K UHD monitor with vibrant colors.",
+      "price": "299.99",
+      "in_stock": true
+    }
+  },
+  {
+    "model": "product.product",
+    "pk": 10,
+    "fields": {
+      "name": "Keyboard",
+      "description": "Mechanical keyboard with RGB lighting.",
+      "price": "99.99",
+      "in_stock": true
+    }
+  },
+  {
+    "model": "product.product",
+    "pk": 11,
+    "fields": {
+      "name": "Mouse",
+      "description": "Wireless mouse with ergonomic design.",
+      "price": "49.99",
+      "in_stock": true
+    }
+  }
+]

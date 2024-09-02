@@ -1,0 +1,217 @@
+/* Base styles */
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&family=Handjet:wght@400;700&display=swap");
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Quicksand", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: radial-gradient(#186a5e, #053339);
+  color: #e1eeeb;
+  min-height: 100vh;
+}
+
+#content {
+  max-width: 60rem;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: radial-gradient(#0b201d, #021619);
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+}
+
+h1 {
+  font-family: "Handjet", monospace;
+  text-align: center;
+  text-transform: uppercase;
+  color: #c1e2dd;
+  text-shadow: 0 0 4px rgba(35, 34, 34, 0.4);
+  font-size: 3.5rem;
+  margin: 0;
+}
+
+h1 em {
+  font-style: normal;
+  color: #00eeff;
+}
+
+.form-container {
+  background: radial-gradient(#0b201d, #021619);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+}
+
+.form-group label {
+  color: #e1eeeb;
+}
+
+.form-control {
+  background: #fff;
+  color: #053339;
+  border: 1px solid #053339;
+}
+
+.form-control:focus {
+  background: #fff;
+  color: #053339;
+  border: 1px solid #00eeff;
+}
+
+.btn-primary {
+  background-color: #00eeff;
+  border-color: #00eeff;
+  color: #053339;
+}
+
+.btn-primary:hover {
+  background-color: #00ccdd;
+  border-color: #00ccdd;
+}
+
+.table-container {
+  margin-top: 2rem;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #0b201d;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+}
+
+.table th,
+.table td {
+  padding: 0.75rem;
+  text-align: left;
+}
+
+.table th {
+  background: #053339;
+  color: #e1eeeb;
+}
+
+.table td {
+  background: #0b201d;
+  color: #e1eeeb;
+}
+
+.table-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.table-actions button {
+  align-items: center;
+  justify-content: center;
+  padding: 0.7rem;
+  border: none;
+  cursor: pointer;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  padding: 1rem 0;
+}
+
+.pagination button {
+  background: #186a5e;
+  border: none;
+  color: #e1eeeb;
+  padding: 0.5rem 1rem;
+  margin: 0 0.25rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.pagination button.active {
+  background: #00eeff;
+  color: #053339;
+}
+
+.custom-modal .modal-content {
+  background: radial-gradient(#0b201d, #021619);
+  border: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+  border-radius: 16px;
+}
+
+.custom-modal .modal-header {
+  border-bottom: none;
+  color: #fff; /* Text color in the modal header */
+}
+
+.custom-modal .modal-header .btn-close {
+  color: white !important; /* Ensuring the close button is white */
+  opacity: 1;
+}
+
+.custom-modal .modal-header .btn-close:hover {
+  color: white !important;
+}
+
+.custom-modal .modal-body {
+  padding: 2rem;
+}
+
+.custom-modal .modal-title {
+  font-family: "Handjet", monospace;
+  text-align: center;
+  text-transform: uppercase;
+  color: #c1e2dd;
+  text-shadow: 0 0 4px rgba(35, 34, 34, 0.4);
+  font-size: 2rem;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .table-container {
+    padding: 1rem;
+  }
+
+  .table th,
+  .table td {
+    padding: 0.5rem;
+  }
+
+  .pagination button {
+    padding: 0.25rem 0.5rem;
+    margin: 0 0.1rem;
+  }
+
+  .table-actions button {
+    width: 30px;
+    height: 30px;
+    padding: 0.4rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .form-container,
+  .table-container {
+    padding: 0.5rem;
+  }
+
+  .table th,
+  .table td {
+    padding: 0.25rem;
+    font-size: 0.9rem;
+  }
+
+  .pagination button {
+    padding: 0.2rem 0.4rem;
+    margin: 0 0.05rem;
+  }
+
+  .table-actions button {
+    width: 28px;
+    height: 28px;
+    padding: 0.3rem;
+  }
+}
