@@ -4,12 +4,15 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+// Get the base URL from the environment variable
+const BASE_URL = import.meta.env.VITE_APP_BASE_URL;
+
 const App = () => {
   const [products, setProducts] = useState([]);
 
   const fetchProducts = async () => {
     try {
-      const response = await axios.get("http://127.0.0.1:8000/api/product/");
+      const response = await axios.get(`${BASE_URL}/api/product/`);
       setProducts(response.data.results);
     } catch (error) {
       console.error("Error fetching products:", error);
