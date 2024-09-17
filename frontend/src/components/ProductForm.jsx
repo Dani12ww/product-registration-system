@@ -10,32 +10,47 @@ const ProductForm = ({
   notifySuccess,
   notifyError,
 }) => {
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [price, setPrice] = useState("");
-  const [inStock, setInStock] = useState(true);
+  // Consolidating form state into a single object
+  const [formData, setFormData] = useState({
+    name: "",
+    description: "",
+    price: "",
+    inStock: true,
+  });
 
   useEffect(() => {
     if (editingProduct) {
-      setName(editingProduct.name);
-      setDescription(editingProduct.description);
-      setPrice(editingProduct.price);
-      setInStock(editingProduct.in_stock);
+      setFormData({
+        name: editingProduct.name,
+        description: editingProduct.description,
+        price: editingProduct.price,
+        inStock: editingProduct.in_stock,
+      });
     } else {
-      setName("");
-      setDescription("");
-      setPrice("");
-      setInStock(true); // Default to true for new products
+      setFormData({
+        name: "",
+        description: "",
+        price: "",
+        inStock: true, // Default to true for new products
+      });
     }
   }, [editingProduct]);
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: type === "checkbox" ? checked : value,
+    }));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const productData = {
-      name,
-      description,
-      price,
-      in_stock: inStock,
+      name: formData.name,
+      description: formData.description,
+      price: formData.price,
+      in_stock: formData.inStock,
     };
 
     try {
@@ -64,9 +79,10 @@ const ProductForm = ({
           <label>Name</label>
           <input
             type="text"
+            name="name"
             className="form-control"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={formData.name}
+            onChange={handleChange}
             required
           />
         </div>
@@ -74,9 +90,10 @@ const ProductForm = ({
           <label>Description</label>
           <input
             type="text"
+            name="description"
             className="form-control"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
+            value={formData.description}
+            onChange={handleChange}
             required
           />
         </div>
@@ -84,18 +101,20 @@ const ProductForm = ({
           <label>Price</label>
           <input
             type="number"
+            name="price"
             className="form-control"
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
+            value={formData.price}
+            onChange={handleChange}
             required
           />
         </div>
         <div className="form-group form-check">
           <input
             type="checkbox"
+            name="inStock"
             className="form-check-input"
-            checked={inStock}
-            onChange={(e) => setInStock(e.target.checked)}
+            checked={formData.inStock}
+            onChange={handleChange}
           />
           <label className="form-check-label">In Stock</label>
         </div>
