@@ -3,7 +3,7 @@ import axios from "axios";
 import { Modal, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash, faPlus } from "@fortawesome/free-solid-svg-icons";
-import ProductForm from "./ProductForm";
+import ProductForm from "./ProductForm.jsx";
 
 const ProductTable = ({ notifySuccess, notifyError }) => {
   const [products, setProducts] = useState([]);
