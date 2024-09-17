@@ -5,6 +5,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash, faPlus } from "@fortawesome/free-solid-svg-icons";
 import ProductForm from "./ProductForm.jsx";
 
+const BASE_URL = import.meta.env.VITE_APP_BASE_URL;
+
 const ProductTable = ({ notifySuccess, notifyError }) => {
   const [products, setProducts] = useState([]);
   const [search, setSearch] = useState("");
@@ -22,7 +24,7 @@ const ProductTable = ({ notifySuccess, notifyError }) => {
   const fetchProducts = async () => {
     try {
       const response = await axios.get(
-        `http://127.0.0.1:8000/api/product/?search=${search}&page=${page}`
+        `${BASE_URL}/api/product/?search=${search}&page=${page}`
       );
       setProducts(response.data.results);
       setPageCount(Math.ceil(response.data.count / 10)); // Assuming page_size is 10
@@ -39,9 +41,7 @@ const ProductTable = ({ notifySuccess, notifyError }) => {
 
   const handleDelete = async () => {
     try {
-      await axios.delete(
-        `http://127.0.0.1:8000/api/product/${productToDelete}/`
-      );
+      await axios.delete(`${BASE_URL}/api/product/${productToDelete}/`);
       setProducts(products.filter((product) => product.id !== productToDelete));
       setShowModal(false);
       notifySuccess("Product deleted successfully!");

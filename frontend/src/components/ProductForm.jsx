@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
+const BASE_URL = import.meta.env.VITE_APP_BASE_URL;
+
 const ProductForm = ({
   fetchProducts,
   editingProduct,
@@ -39,12 +41,12 @@ const ProductForm = ({
     try {
       if (editingProduct) {
         await axios.put(
-          `http://127.0.0.1:8000/api/product/${editingProduct.id}/`,
+          `${BASE_URL}/api/product/${editingProduct.id}/`,
           productData
         );
         notifySuccess("Product updated successfully!");
       } else {
-        await axios.post("http://127.0.0.1:8000/api/product/", productData);
+        await axios.post(`${BASE_URL}/api/product/`, productData);
         notifySuccess("Product added successfully!");
       }
       fetchProducts(); // Refresh the list after adding/updating
