@@ -9,11 +9,17 @@ const BASE_URL = import.meta.env.VITE_APP_BASE_URL;
 
 const App = () => {
   const [products, setProducts] = useState([]);
+  const [search, setSearch] = useState("");
+  const [page, setPage] = useState(1);
+  const [pageCount, setPageCount] = useState(1);
 
   const fetchProducts = async () => {
     try {
-      const response = await axios.get(`${BASE_URL}/api/product/`);
+      const response = await axios.get(
+        `${BASE_URL}/api/product/?search=${search}&page=${page}`
+      );
       setProducts(response.data.results);
+      setPageCount(Math.ceil(response.data.count / 10)); // Assuming page_size is 10
     } catch (error) {
       console.error("Error fetching products:", error);
     }
@@ -21,7 +27,7 @@ const App = () => {
 
   useEffect(() => {
     fetchProducts();
-  }, []);
+  }, [search, page]);
 
   const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
@@ -32,9 +38,13 @@ const App = () => {
       <h1>Product Management</h1>
       <ProductTable
         products={products}
+        pageCount={pageCount}
+        page={page}
+        setPage={setPage}
         fetchProducts={fetchProducts}
         notifySuccess={notifySuccess}
         notifyError={notifyError}
+        setSearch={setSearch}
       />
     </div>
   );

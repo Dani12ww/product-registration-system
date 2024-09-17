@@ -1,48 +1,28 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState } from "react";
 import { Modal, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash, faPlus } from "@fortawesome/free-solid-svg-icons";
 import ProductForm from "./ProductForm.jsx";
 
-const BASE_URL = import.meta.env.VITE_APP_BASE_URL;
-
-const ProductTable = ({ notifySuccess, notifyError }) => {
-  const [products, setProducts] = useState([]);
-  const [search, setSearch] = useState("");
-  const [page, setPage] = useState(1);
-  const [pageCount, setPageCount] = useState(1);
+const ProductTable = ({
+  products,
+  pageCount,
+  page,
+  setPage,
+  fetchProducts,
+  notifySuccess,
+  notifyError,
+  setSearch,
+}) => {
   const [showModal, setShowModal] = useState(false);
   const [showFormModal, setShowFormModal] = useState(false);
   const [productToDelete, setProductToDelete] = useState(null);
   const [editingProduct, setEditingProduct] = useState(null);
 
-  useEffect(() => {
-    fetchProducts();
-  }, [search, page]);
-
-  const fetchProducts = async () => {
-    try {
-      const response = await axios.get(
-        `${BASE_URL}/api/product/?search=${search}&page=${page}`
-      );
-      setProducts(response.data.results);
-      setPageCount(Math.ceil(response.data.count / 10)); // Assuming page_size is 10
-    } catch (error) {
-      notifyError("Error fetching products");
-      console.error("Error fetching products:", error);
-    }
-  };
-
-  const handleSearch = (e) => {
-    setSearch(e.target.value);
-    setPage(1);
-  };
-
   const handleDelete = async () => {
     try {
       await axios.delete(`${BASE_URL}/api/product/${productToDelete}/`);
-      setProducts(products.filter((product) => product.id !== productToDelete));
+      fetchProducts(); // Refetch products after deletion
       setShowModal(false);
       notifySuccess("Product deleted successfully!");
     } catch (error) {
@@ -71,6 +51,11 @@ const ProductTable = ({ notifySuccess, notifyError }) => {
     setEditingProduct(null);
   };
 
+  const handleSearch = (e) => {
+    setSearch(e.target.value);
+    setPage(1);
+  };
+
   return (
     <div className="table-container">
       <div className="d-flex justify-content-between align-items-center mb-3">
@@ -83,7 +68,6 @@ const ProductTable = ({ notifySuccess, notifyError }) => {
         <input
           type="text"
           placeholder="Search products..."
-          value={search}
           onChange={handleSearch}
           className="form-control"
         />
