@@ -3,14 +3,29 @@ import axios from "axios";
 
 const BASE_URL = import.meta.env.VITE_APP_BASE_URL;
 
-const ProductForm = ({
+interface Product {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  in_stock: boolean;
+}
+
+interface ProductFormProps {
+  fetchProducts: () => void;
+  editingProduct: Product | null;
+  setEditingProduct: (product: Product | null) => void;
+  notifySuccess: (message: string) => void;
+  notifyError: (message: string) => void;
+}
+
+const ProductForm: React.FC<ProductFormProps> = ({
   fetchProducts,
   editingProduct,
   setEditingProduct,
   notifySuccess,
   notifyError,
 }) => {
-  // Consolidating form state into a single object
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -23,7 +38,7 @@ const ProductForm = ({
       setFormData({
         name: editingProduct.name,
         description: editingProduct.description,
-        price: editingProduct.price,
+        price: editingProduct.price.toString(),
         inStock: editingProduct.in_stock,
       });
     } else {
@@ -36,7 +51,7 @@ const ProductForm = ({
     }
   }, [editingProduct]);
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
     setFormData((prevState) => ({
       ...prevState,
@@ -44,12 +59,12 @@ const ProductForm = ({
     }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const productData = {
       name: formData.name,
       description: formData.description,
-      price: formData.price,
+      price: parseFloat(formData.price),
       in_stock: formData.inStock,
     };
 
@@ -64,8 +79,8 @@ const ProductForm = ({
         await axios.post(`${BASE_URL}/api/product/`, productData);
         notifySuccess("Product added successfully!");
       }
-      fetchProducts(); // Refresh the list after adding/updating
-      setEditingProduct(null); // Reset editing mode
+      fetchProducts();
+      setEditingProduct(null);
     } catch (error) {
       notifyError("Error adding/updating product");
       console.error("Error adding/updating product:", error);

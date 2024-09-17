@@ -3,19 +3,35 @@ import axios from "axios";
 import { Modal, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash, faPlus } from "@fortawesome/free-solid-svg-icons";
-import ProductForm from "./ProductForm.jsx";
+import ProductForm from "./ProductForm";
 
 const BASE_URL = import.meta.env.VITE_APP_BASE_URL;
 
-const ProductTable = ({ notifySuccess, notifyError }) => {
-  const [products, setProducts] = useState([]);
-  const [search, setSearch] = useState("");
-  const [page, setPage] = useState(1);
-  const [pageCount, setPageCount] = useState(1);
-  const [showModal, setShowModal] = useState(false);
-  const [showFormModal, setShowFormModal] = useState(false);
-  const [productToDelete, setProductToDelete] = useState(null);
-  const [editingProduct, setEditingProduct] = useState(null);
+interface Product {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  in_stock: boolean;
+}
+
+interface ProductTableProps {
+  notifySuccess: (message: string) => void;
+  notifyError: (message: string) => void;
+}
+
+const ProductTable: React.FC<ProductTableProps> = ({
+  notifySuccess,
+  notifyError,
+}) => {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [search, setSearch] = useState<string>("");
+  const [page, setPage] = useState<number>(1);
+  const [pageCount, setPageCount] = useState<number>(1);
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [showFormModal, setShowFormModal] = useState<boolean>(false);
+  const [productToDelete, setProductToDelete] = useState<number | null>(null);
+  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
 
   useEffect(() => {
     fetchProducts();
@@ -27,14 +43,14 @@ const ProductTable = ({ notifySuccess, notifyError }) => {
         `${BASE_URL}/api/product/?search=${search}&page=${page}`
       );
       setProducts(response.data.results);
-      setPageCount(Math.ceil(response.data.count / 10)); // Assuming page_size is 10
+      setPageCount(Math.ceil(response.data.count / 10));
     } catch (error) {
       notifyError("Error fetching products");
       console.error("Error fetching products:", error);
     }
   };
 
-  const handleSearch = (e) => {
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
     setPage(1);
   };
@@ -42,7 +58,7 @@ const ProductTable = ({ notifySuccess, notifyError }) => {
   const handleDelete = async () => {
     try {
       await axios.delete(`${BASE_URL}/api/product/${productToDelete}/`);
-      fetchProducts(); // Refetch products after deletion
+      fetchProducts();
       setShowModal(false);
       notifySuccess("Product deleted successfully!");
     } catch (error) {
@@ -51,12 +67,12 @@ const ProductTable = ({ notifySuccess, notifyError }) => {
     }
   };
 
-  const handleEdit = (product) => {
+  const handleEdit = (product: Product) => {
     setEditingProduct(product);
     setShowFormModal(true);
   };
 
-  const handleShowModal = (id) => {
+  const handleShowModal = (id: number) => {
     setProductToDelete(id);
     setShowModal(true);
   };

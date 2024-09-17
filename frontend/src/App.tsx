@@ -1,11 +1,11 @@
 import React from "react";
-import ProductTable from "./components/ProductTable.jsx";
+import ProductTable from "./components/ProductTable";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const App = () => {
-  const notifySuccess = (message) => toast.success(message);
-  const notifyError = (message) => toast.error(message);
+const App: React.FC = () => {
+  const notifySuccess = (message: string) => toast.success(message);
+  const notifyError = (message: string) => toast.error(message);
 
   return (
     <div id="content">
