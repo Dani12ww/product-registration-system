@@ -1,20 +1,10 @@
+// src/components/ProductForm.tsx
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-
-const BASE_URL = import.meta.env.VITE_APP_BASE_URL;
-
-interface Product {
-  id: number;
-  name: string;
-  description: string;
-  price: number;
-  in_stock: boolean;
-}
+import { Product, addOrEditProduct } from "./ProductService";
 
 interface ProductFormProps {
   fetchProducts: () => void;
   editingProduct: Product | null;
-  setEditingProduct: (product: Product | null) => void;
   notifySuccess: (message: string) => void;
   notifyError: (message: string) => void;
 }
@@ -22,122 +12,87 @@ interface ProductFormProps {
 const ProductForm: React.FC<ProductFormProps> = ({
   fetchProducts,
   editingProduct,
-  setEditingProduct,
   notifySuccess,
   notifyError,
 }) => {
-  const [formData, setFormData] = useState({
+  const [product, setProduct] = useState<Product>({
+    id: 0,
     name: "",
     description: "",
-    price: "",
-    inStock: true,
+    price: 0,
+    in_stock: true,
   });
 
   useEffect(() => {
     if (editingProduct) {
-      setFormData({
-        name: editingProduct.name,
-        description: editingProduct.description,
-        price: editingProduct.price.toString(),
-        inStock: editingProduct.in_stock,
-      });
-    } else {
-      setFormData({
-        name: "",
-        description: "",
-        price: "",
-        inStock: true, // Default to true for new products
-      });
+      setProduct(editingProduct);
     }
   }, [editingProduct]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type, checked } = e.target;
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: type === "checkbox" ? checked : value,
-    }));
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const productData = {
-      name: formData.name,
-      description: formData.description,
-      price: parseFloat(formData.price),
-      in_stock: formData.inStock,
-    };
-
     try {
-      if (editingProduct) {
-        await axios.put(
-          `${BASE_URL}/api/product/${editingProduct.id}/`,
-          productData
-        );
-        notifySuccess("Product updated successfully!");
-      } else {
-        await axios.post(`${BASE_URL}/api/product/`, productData);
-        notifySuccess("Product added successfully!");
-      }
+      await addOrEditProduct(product);
+      notifySuccess("Product saved successfully!");
       fetchProducts();
-      setEditingProduct(null);
     } catch (error) {
-      notifyError("Error adding/updating product");
-      console.error("Error adding/updating product:", error);
+      notifyError("Error saving product");
     }
   };
 
   return (
-    <div className="form-container">
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label>Name</label>
-          <input
-            type="text"
-            name="name"
-            className="form-control"
-            value={formData.name}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label>Description</label>
-          <input
-            type="text"
-            name="description"
-            className="form-control"
-            value={formData.description}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label>Price</label>
-          <input
-            type="number"
-            name="price"
-            className="form-control"
-            value={formData.price}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="form-group form-check">
-          <input
-            type="checkbox"
-            name="inStock"
-            className="form-check-input"
-            checked={formData.inStock}
-            onChange={handleChange}
-          />
-          <label className="form-check-label">In Stock</label>
-        </div>
-        <button type="submit" className="btn btn-primary">
-          {editingProduct ? "Update Product" : "Add Product"}
-        </button>
-      </form>
-    </div>
+    <form onSubmit={handleSubmit}>
+      <div className="form-group">
+        <label>Name</label>
+        <input
+          type="text"
+          className="form-control"
+          value={product.name}
+          onChange={(e) => setProduct({ ...product, name: e.target.value })}
+          required
+        />
+      </div>
+      <div className="form-group">
+        <label>Description</label>
+        <input
+          type="text"
+          className="form-control"
+          value={product.description}
+          onChange={(e) =>
+            setProduct({ ...product, description: e.target.value })
+          }
+          required
+        />
+      </div>
+      <div className="form-group">
+        <label>Price</label>
+        <input
+          type="number"
+          className="form-control"
+          value={product.price}
+          onChange={(e) =>
+            setProduct({ ...product, price: parseFloat(e.target.value) })
+          }
+          required
+        />
+      </div>
+      <div className="form-group">
+        <label>In Stock</label>
+        <select
+          className="form-control"
+          value={product.in_stock ? "true" : "false"}
+          onChange={(e) =>
+            setProduct({ ...product, in_stock: e.target.value === "true" })
+          }
+        >
+          <option value="true">Yes</option>
+          <option value="false">No</option>
+        </select>
+      </div>
+      <button type="submit" className="btn btn-primary">
+        Save
+      </button>
+    </form>
   );
 };
 

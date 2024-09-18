@@ -1,20 +1,12 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { Modal, Button } from "react-bootstrap";
+import { Button } from "react-bootstrap";
+import { fetchProducts, deleteProduct, Product } from "./ProductService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash, faPlus } from "@fortawesome/free-solid-svg-icons";
-import ProductForm from "./ProductForm";
+import ProductFormModal from "./ProductFormModal";
+import DeleteModal from "./DeleteModal";
 
-const BASE_URL = import.meta.env.VITE_APP_BASE_URL;
-
-interface Product {
-  id: number;
-  name: string;
-  description: string;
-  price: number;
-  in_stock: boolean;
-}
-
+// Define the props type for ProductTable
 interface ProductTableProps {
   notifySuccess: (message: string) => void;
   notifyError: (message: string) => void;
@@ -34,57 +26,28 @@ const ProductTable: React.FC<ProductTableProps> = ({
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
 
   useEffect(() => {
-    fetchProducts();
+    loadProducts();
   }, [search, page]);
 
-  const fetchProducts = async () => {
+  const loadProducts = async () => {
     try {
-      const response = await axios.get(
-        `${BASE_URL}/api/product/?search=${search}&page=${page}`
-      );
-      setProducts(response.data.results);
-      setPageCount(Math.ceil(response.data.count / 10));
+      const data = await fetchProducts(search, page);
+      setProducts(data.results);
+      setPageCount(Math.ceil(data.count / 10));
     } catch (error) {
       notifyError("Error fetching products");
-      console.error("Error fetching products:", error);
     }
-  };
-
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
-    setPage(1);
   };
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`${BASE_URL}/api/product/${productToDelete}/`);
-      fetchProducts();
+      await deleteProduct(productToDelete!);
+      loadProducts();
       setShowModal(false);
       notifySuccess("Product deleted successfully!");
     } catch (error) {
       notifyError("Error deleting product");
-      console.error("Error deleting product:", error);
     }
-  };
-
-  const handleEdit = (product: Product) => {
-    setEditingProduct(product);
-    setShowFormModal(true);
-  };
-
-  const handleShowModal = (id: number) => {
-    setProductToDelete(id);
-    setShowModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setShowModal(false);
-    setProductToDelete(null);
-  };
-
-  const handleCloseFormModal = () => {
-    setShowFormModal(false);
-    setEditingProduct(null);
   };
 
   return (
@@ -95,15 +58,17 @@ const ProductTable: React.FC<ProductTableProps> = ({
           <FontAwesomeIcon icon={faPlus} /> Add Product
         </Button>
       </div>
+
       <div className="d-flex mb-3">
         <input
           type="text"
           placeholder="Search products..."
           value={search}
-          onChange={handleSearch}
+          onChange={(e) => setSearch(e.target.value)}
           className="form-control"
         />
       </div>
+
       <table className="table table-striped table-hover">
         <thead className="thead-dark">
           <tr>
@@ -125,13 +90,19 @@ const ProductTable: React.FC<ProductTableProps> = ({
                 <div className="table-actions">
                   <button
                     className="btn btn-warning btn-sm"
-                    onClick={() => handleEdit(product)}
+                    onClick={() => {
+                      setEditingProduct(product);
+                      setShowFormModal(true);
+                    }}
                   >
                     <FontAwesomeIcon icon={faEdit} />
                   </button>
                   <button
                     className="btn btn-danger btn-sm"
-                    onClick={() => handleShowModal(product.id)}
+                    onClick={() => {
+                      setProductToDelete(product.id);
+                      setShowModal(true);
+                    }}
                   >
                     <FontAwesomeIcon icon={faTrash} />
                   </button>
@@ -141,6 +112,7 @@ const ProductTable: React.FC<ProductTableProps> = ({
           ))}
         </tbody>
       </table>
+
       <nav className="pagination">
         {Array.from({ length: pageCount }, (_, index) => (
           <button
@@ -153,45 +125,20 @@ const ProductTable: React.FC<ProductTableProps> = ({
         ))}
       </nav>
 
-      <Modal
+      <DeleteModal
         show={showModal}
-        onHide={handleCloseModal}
-        dialogClassName="custom-modal"
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>Confirm Deletion</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>Are you sure you want to delete this product?</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseModal}>
-            Cancel
-          </Button>
-          <Button variant="danger" onClick={handleDelete}>
-            Delete
-          </Button>
-        </Modal.Footer>
-      </Modal>
+        handleClose={() => setShowModal(false)}
+        handleDelete={handleDelete}
+      />
 
-      <Modal
+      <ProductFormModal
         show={showFormModal}
-        onHide={handleCloseFormModal}
-        dialogClassName="custom-modal"
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>
-            {editingProduct ? "Edit Product" : "Add Product"}
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <ProductForm
-            fetchProducts={fetchProducts}
-            editingProduct={editingProduct}
-            setEditingProduct={setEditingProduct}
-            notifySuccess={notifySuccess}
-            notifyError={notifyError}
-          />
-        </Modal.Body>
-      </Modal>
+        handleClose={() => setShowFormModal(false)}
+        editingProduct={editingProduct}
+        fetchProducts={loadProducts}
+        notifySuccess={notifySuccess}
+        notifyError={notifyError}
+      />
     </div>
   );
 };

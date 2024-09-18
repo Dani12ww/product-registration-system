@@ -94,6 +94,7 @@ h1 em {
 .table th {
   background: #053339;
   color: #e1eeeb;
+  text-wrap: nowrap;
 }
 
 .table td {
