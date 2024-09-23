@@ -1,4 +1,3 @@
-// src/components/ProductForm.tsx
 import React, { useState, useEffect } from "react";
 import { Product, addOrEditProduct } from "./ProductService";
 

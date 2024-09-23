@@ -1,26 +1,25 @@
-/* Base styles */
 @import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&family=Handjet:wght@400;700&display=swap");
 
 :root {
-  --bg-color: #e6dede; /* Light background */
-  --text-color: #043071; /* Dark blue text color */
-  --form-bg: #f8f9fa; /* Light form background */
-  --btn-bg: #ffffff; /* Button background */
-  --btn-hover-bg: #f8f9fa; /* Button hover background */
-  --btn-text: #043071; /* Button text color */
-  --table-bg: #ffffff; /* Table background */
-  --modal-bg: #ffffff; /* Modal background */
+  --bg-color: #e6dede;
+  --text-color: #043071;
+  --form-bg: #f8f9fa;
+  --btn-bg: #ffffff;
+  --btn-hover-bg: #f8f9fa;
+  --btn-text: #043071;
+  --table-bg: #ffffff;
+  --modal-bg: #ffffff;
 }
 
 body.dark-mode {
-  --bg-color: #2e2e2e; /* Dark background */
-  --text-color: #f0f0f0; /* Light text color */
-  --form-bg: #444444; /* Dark form background */
-  --btn-bg: #555555; /* Dark button background */
-  --btn-hover-bg: #666666; /* Button hover background */
-  --btn-text: #f0f0f0; /* Button text color */
-  --table-bg: #444444; /* Dark table background */
-  --modal-bg: #444444; /* Dark modal background */
+  --bg-color: #2e2e2e;
+  --text-color: #f0f0f0;
+  --form-bg: #444444;
+  --btn-bg: #555555;
+  --btn-hover-bg: #666666;
+  --btn-text: #f0f0f0;
+  --table-bg: #444444;
+  --modal-bg: #444444;
 }
 
 body,
@@ -147,9 +146,9 @@ h1 em {
 
 .pagination {
   display: flex;
-  justify-content: center; /* Center pagination buttons */
+  justify-content: center;
   align-items: center;
-  margin: 1rem 0; /* Add margin for spacing */
+  margin: 1rem 0;
 }
 
 .pagination button {
@@ -283,104 +282,100 @@ h1 em {
   }
 }
 
-/* Dark Mode Styling */
 body.dark-mode,
 body.dark-mode #content {
-  background: radial-gradient(#2e2e2e, #111111); /* Dark container background */
-  color: #14796a; /* Light text color */
+  background: radial-gradient(#2e2e2e, #111111);
+  color: #14796a;
 }
 
 body.dark-mode h1 {
-  color: #c1e2dd; /* Light header text */
-  text-shadow: 0 0 4px rgba(255, 255, 255, 0.4); /* Light header shadow */
+  color: #c1e2dd;
+  text-shadow: 0 0 4px rgba(255, 255, 255, 0.4);
 }
 
 body.dark-mode h1 em {
-  color: #00ccdd; /* Accent color for dark mode */
+  color: #00ccdd;
 }
 
 body.dark-mode .form-container {
-  background: radial-gradient(#333333, #111111); /* Dark form background */
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.8); /* Dark shadow */
+  background: radial-gradient(#333333, #111111);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
 }
 
 body.dark-mode .form-group label {
-  color: #05443b; /* Light text for labels */
+  color: #05443b;
 }
 
 body.dark-mode .form-control {
-  background: #555555; /* Dark input background */
-  color: #c1e2dd; /* Light text in inputs */
-  border: 1px solid #00ccdd; /* Accent border for inputs */
+  background: #555555;
+  color: #c1e2dd;
+  border: 1px solid #00ccdd;
 }
 
 body.dark-mode .form-control:focus {
-  background: #666666; /* Darker input background */
-  color: #c1e2dd; /* Light text in focused input */
-  border: 1px solid #00ccdd; /* Accent border on focus */
+  background: #666666;
+  color: #c1e2dd;
+  border: 1px solid #00ccdd;
 }
 
 body.dark-mode .btn-primary {
-  background-color: #00ccdd; /* Dark mode button background */
-  border-color: #00ccdd; /* Dark mode button border */
-  color: #053339; /* Dark mode button text */
+  background-color: #00ccdd;
+  border-color: #00ccdd;
+  color: #053339;
 }
 
 body.dark-mode .btn-primary:hover {
-  background-color: #0099aa; /* Hover color for button */
-  border-color: #0099aa; /* Hover border color for button */
+  background-color: #0099aa;
+  border-color: #0099aa;
 }
 
 body.dark-mode .table {
-  background: #222222; /* Dark mode table background */
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.8); /* Dark shadow */
+  background: #222222;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
 }
 
 body.dark-mode .table th {
-  background: #444444; /* Dark mode table header */
-  color: #c1e2dd; /* Light text for table header */
+  background: #444444;
+  color: #c1e2dd;
 }
 
 body.dark-mode .table td {
-  background: #333333; /* Dark mode table cells */
-  color: #c1e2dd; /* Light text for table cells */
+  background: #333333;
+  color: #c1e2dd;
 }
 
 body.dark-mode .pagination button {
-  background: #444444; /* Dark mode pagination background */
-  color: #c1e2dd; /* Light text for pagination */
+  background: #444444;
+  color: #c1e2dd;
 }
 
 body.dark-mode .pagination button.active {
-  background: #00ccdd; /* Active pagination background */
-  color: #053339; /* Active pagination text */
+  background: #00ccdd;
+  color: #053339;
 }
 
 body.dark-mode .custom-modal .modal-content {
-  background: radial-gradient(
-    #333333,
-    #111111
-  ); /* Dark mode modal background */
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.8); /* Dark shadow */
+  background: radial-gradient(#333333, #111111);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
 }
 
 body.dark-mode .custom-modal .modal-header {
-  color: #05443b; /* Dark mode text color for modal header */
+  color: #05443b;
 }
 
 body.dark-mode .custom-modal .modal-body {
-  color: #05443b; /* Dark mode text color for modal body content */
+  color: #05443b;
 }
 
 body.dark-mode .custom-modal .modal-title {
-  color: #05443b; /* Light text for modal title */
-  text-shadow: 0 0 4px rgba(255, 255, 255, 0.4); /* Light shadow for modal title */
+  color: #05443b;
+  text-shadow: 0 0 4px rgba(255, 255, 255, 0.4);
 }
 
 body.dark-mode .toggle-btn {
-  color: #00eeff; /* Yellow color in dark mode */
+  color: #00eeff;
 }
 
 .toggle-btn {
-  color: var(--text-color, #043071); /* Default color */
+  color: var(--text-color, #043071);
 }
