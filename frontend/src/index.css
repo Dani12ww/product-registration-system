@@ -1,76 +1,95 @@
 /* Base styles */
 @import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&family=Handjet:wght@400;700&display=swap");
 
-* {
-  box-sizing: border-box;
+:root {
+  --bg-color: #e6dede; /* Light background */
+  --text-color: #043071; /* Dark blue text color */
+  --form-bg: #f8f9fa; /* Light form background */
+  --btn-bg: #ffffff; /* Button background */
+  --btn-hover-bg: #f8f9fa; /* Button hover background */
+  --btn-text: #043071; /* Button text color */
+  --table-bg: #ffffff; /* Table background */
+  --modal-bg: #ffffff; /* Modal background */
 }
 
-body {
+body.dark-mode {
+  --bg-color: #2e2e2e; /* Dark background */
+  --text-color: #f0f0f0; /* Light text color */
+  --form-bg: #444444; /* Dark form background */
+  --btn-bg: #555555; /* Dark button background */
+  --btn-hover-bg: #666666; /* Button hover background */
+  --btn-text: #f0f0f0; /* Button text color */
+  --table-bg: #444444; /* Dark table background */
+  --modal-bg: #444444; /* Dark modal background */
+}
+
+body,
+#content {
   margin: 0;
   font-family: "Quicksand", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: radial-gradient(#186a5e, #053339);
-  color: #e1eeeb;
+  background: var(--bg-color);
+  color: var(--text-color);
   min-height: 100vh;
 }
 
 #content {
-  max-width: 60rem;
-  margin: 2rem auto;
+  max-width: 100%;
   padding: 2rem;
-  background: radial-gradient(#0b201d, #021619);
-  border-radius: 16px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
 }
 
 h1 {
   font-family: "Handjet", monospace;
   text-align: center;
   text-transform: uppercase;
-  color: #c1e2dd;
-  text-shadow: 0 0 4px rgba(35, 34, 34, 0.4);
+  color: var(--text-color);
+  text-shadow: 0 0 2px rgba(255, 255, 255, 0.4);
   font-size: 3.5rem;
   margin: 0;
 }
 
 h1 em {
   font-style: normal;
-  color: #00eeff;
+  color: #007bff;
 }
 
 .form-container {
-  background: radial-gradient(#0b201d, #021619);
-  border-radius: 16px;
+  background: var(--form-bg);
+  border-radius: 20px;
   padding: 2rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .form-group label {
-  color: #e1eeeb;
+  color: var(--text-color);
 }
 
 .form-control {
-  background: #fff;
-  color: #053339;
-  border: 1px solid #053339;
+  background: var(--table-bg);
+  color: var(--text-color);
+  border: 1px solid #ced4da;
+  border-radius: 12px;
 }
 
 .form-control:focus {
-  background: #fff;
-  color: #053339;
-  border: 1px solid #00eeff;
+  background: var(--table-bg);
+  color: var(--text-color);
+  border: 1px solid #007bff;
 }
 
 .btn-primary {
-  background-color: #00eeff;
-  border-color: #00eeff;
-  color: #053339;
+  background-color: var(--btn-bg);
+  border-color: #ced4da;
+  color: var(--btn-text);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
 }
 
 .btn-primary:hover {
-  background-color: #00ccdd;
-  border-color: #00ccdd;
+  background-color: var(--btn-hover-bg);
+  border-color: #ced4da;
+  color: var(--btn-text);
 }
 
 .table-container {
@@ -80,26 +99,29 @@ h1 em {
 .table {
   width: 100%;
   border-collapse: collapse;
-  background: #0b201d;
-  border-radius: 16px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+  background: var(--table-bg);
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .table th,
 .table td {
   padding: 0.75rem;
   text-align: left;
+  color: var(--text-color);
 }
 
 .table th {
-  background: #053339;
-  color: #e1eeeb;
+  background: #f1f1f1;
   text-wrap: nowrap;
 }
 
 .table td {
-  background: #0b201d;
-  color: #e1eeeb;
+  background: var(--table-bg);
+}
+
+.table tbody tr:hover {
+  background-color: #f8f9fa;
 }
 
 .table-actions {
@@ -113,64 +135,92 @@ h1 em {
   padding: 0.7rem;
   border: none;
   cursor: pointer;
+  background: var(--btn-bg);
+  color: var(--btn-text);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.table-actions button:hover {
+  background: var(--btn-hover-bg);
 }
 
 .pagination {
   display: flex;
-  justify-content: center;
-  padding: 1rem 0;
+  justify-content: center; /* Center pagination buttons */
+  align-items: center;
+  margin: 1rem 0; /* Add margin for spacing */
 }
 
 .pagination button {
-  background: #186a5e;
-  border: none;
-  color: #e1eeeb;
+  background: var(--btn-bg);
+  border: 1px solid #ced4da;
+  color: var(--btn-text);
   padding: 0.5rem 1rem;
   margin: 0 0.25rem;
-  border-radius: 4px;
+  border-radius: 12px;
   cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.pagination button:hover {
+  background: var(--btn-hover-bg);
+  color: #0056b3;
 }
 
 .pagination button.active {
-  background: #00eeff;
-  color: #053339;
+  background: var(--btn-bg);
+  color: var(--text-color);
+  border-color: #fff;
 }
 
 .custom-modal .modal-content {
-  background: radial-gradient(#0b201d, #021619);
+  background: var(--modal-bg);
   border: none;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
-  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  padding: 1.5rem;
 }
 
 .custom-modal .modal-header {
-  border-bottom: none;
-  color: #fff; /* Text color in the modal header */
+  border-bottom: 1px solid #ced4da;
+  color: var(--text-color);
+  padding-bottom: 1rem;
 }
 
 .custom-modal .modal-header .btn-close {
-  color: white !important; /* Ensuring the close button is white */
+  color: var(--text-color) !important;
   opacity: 1;
 }
 
 .custom-modal .modal-header .btn-close:hover {
-  color: white !important;
+  color: #000 !important;
 }
 
 .custom-modal .modal-body {
-  padding: 2rem;
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.custom-modal .modal-footer {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  padding-top: 1.5rem;
 }
 
 .custom-modal .modal-title {
   font-family: "Handjet", monospace;
   text-align: center;
   text-transform: uppercase;
-  color: #c1e2dd;
-  text-shadow: 0 0 4px rgba(35, 34, 34, 0.4);
+  color: var(--text-color);
+  text-shadow: 0 0 2px rgba(255, 255, 255, 0.4);
   font-size: 2rem;
+  margin-bottom: 1rem;
 }
 
-/* Responsive styles */
 @media (max-width: 768px) {
   .table-container {
     padding: 1rem;
@@ -190,6 +240,14 @@ h1 em {
     width: 30px;
     height: 30px;
     padding: 0.4rem;
+  }
+
+  .custom-modal .modal-content {
+    padding: 1rem;
+  }
+
+  .custom-modal .modal-body {
+    padding: 1rem;
   }
 }
 
@@ -215,4 +273,114 @@ h1 em {
     height: 28px;
     padding: 0.3rem;
   }
+
+  .custom-modal .modal-content {
+    padding: 0.5rem;
+  }
+
+  .custom-modal .modal-body {
+    padding: 0.5rem;
+  }
+}
+
+/* Dark Mode Styling */
+body.dark-mode,
+body.dark-mode #content {
+  background: radial-gradient(#2e2e2e, #111111); /* Dark container background */
+  color: #14796a; /* Light text color */
+}
+
+body.dark-mode h1 {
+  color: #c1e2dd; /* Light header text */
+  text-shadow: 0 0 4px rgba(255, 255, 255, 0.4); /* Light header shadow */
+}
+
+body.dark-mode h1 em {
+  color: #00ccdd; /* Accent color for dark mode */
+}
+
+body.dark-mode .form-container {
+  background: radial-gradient(#333333, #111111); /* Dark form background */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.8); /* Dark shadow */
+}
+
+body.dark-mode .form-group label {
+  color: #05443b; /* Light text for labels */
+}
+
+body.dark-mode .form-control {
+  background: #555555; /* Dark input background */
+  color: #c1e2dd; /* Light text in inputs */
+  border: 1px solid #00ccdd; /* Accent border for inputs */
+}
+
+body.dark-mode .form-control:focus {
+  background: #666666; /* Darker input background */
+  color: #c1e2dd; /* Light text in focused input */
+  border: 1px solid #00ccdd; /* Accent border on focus */
+}
+
+body.dark-mode .btn-primary {
+  background-color: #00ccdd; /* Dark mode button background */
+  border-color: #00ccdd; /* Dark mode button border */
+  color: #053339; /* Dark mode button text */
+}
+
+body.dark-mode .btn-primary:hover {
+  background-color: #0099aa; /* Hover color for button */
+  border-color: #0099aa; /* Hover border color for button */
+}
+
+body.dark-mode .table {
+  background: #222222; /* Dark mode table background */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.8); /* Dark shadow */
+}
+
+body.dark-mode .table th {
+  background: #444444; /* Dark mode table header */
+  color: #c1e2dd; /* Light text for table header */
+}
+
+body.dark-mode .table td {
+  background: #333333; /* Dark mode table cells */
+  color: #c1e2dd; /* Light text for table cells */
+}
+
+body.dark-mode .pagination button {
+  background: #444444; /* Dark mode pagination background */
+  color: #c1e2dd; /* Light text for pagination */
+}
+
+body.dark-mode .pagination button.active {
+  background: #00ccdd; /* Active pagination background */
+  color: #053339; /* Active pagination text */
+}
+
+body.dark-mode .custom-modal .modal-content {
+  background: radial-gradient(
+    #333333,
+    #111111
+  ); /* Dark mode modal background */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.8); /* Dark shadow */
+}
+
+body.dark-mode .custom-modal .modal-header {
+  color: #05443b; /* Dark mode text color for modal header */
+}
+
+body.dark-mode .custom-modal .modal-body {
+  color: #05443b; /* Dark mode text color for modal body content */
+}
+
+body.dark-mode .custom-modal .modal-title {
+  color: #05443b; /* Light text for modal title */
+  text-shadow: 0 0 4px rgba(255, 255, 255, 0.4); /* Light shadow for modal title */
+}
+
+body.dark-mode .toggle-btn {
+  color: #00eeff; /* Yellow color in dark mode */
+}
+
+.toggle-btn {
+  color: var(--text-color, #043071); /* Default color */
 }

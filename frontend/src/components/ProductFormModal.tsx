@@ -22,7 +22,7 @@ const ProductFormModal: React.FC<ProductFormModalProps> = ({
   notifyError,
 }) => {
   return (
-    <Modal show={show} onHide={handleClose}>
+    <Modal show={show} onHide={handleClose} centered>
       <Modal.Header closeButton>
         <Modal.Title>
           {editingProduct ? "Edit Product" : "Add Product"}

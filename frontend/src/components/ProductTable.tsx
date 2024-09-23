@@ -2,7 +2,13 @@ import React, { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
 import { fetchProducts, deleteProduct, Product } from "./ProductService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faTrash, faPlus } from "@fortawesome/free-solid-svg-icons";
+import {
+  faEdit,
+  faTrash,
+  faPlus,
+  faSun,
+  faMoon,
+} from "@fortawesome/free-solid-svg-icons";
 import ProductFormModal from "./ProductFormModal";
 import DeleteModal from "./DeleteModal";
 
@@ -24,6 +30,7 @@ const ProductTable: React.FC<ProductTableProps> = ({
   const [showFormModal, setShowFormModal] = useState<boolean>(false);
   const [productToDelete, setProductToDelete] = useState<number | null>(null);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+  const [darkMode, setDarkMode] = useState<boolean>(false);
 
   useEffect(() => {
     loadProducts();
@@ -50,13 +57,34 @@ const ProductTable: React.FC<ProductTableProps> = ({
     }
   };
 
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+    document.body.classList.toggle("dark-mode", !darkMode);
+  };
+
   return (
     <div className="table-container">
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h1>Product List</h1>
-        <Button variant="primary" onClick={() => setShowFormModal(true)}>
-          <FontAwesomeIcon icon={faPlus} /> Add Product
-        </Button>
+        <div className="d-flex align-items-center">
+          <Button
+            variant="primary"
+            onClick={() => {
+              setEditingProduct(null); // Reset the editing product state
+              setShowFormModal(true);
+            }}
+          >
+            <FontAwesomeIcon icon={faPlus} /> Add Product
+          </Button>
+          <Button
+            variant="link"
+            onClick={toggleDarkMode}
+            className="toggle-btn"
+            style={{ marginLeft: "1rem" }}
+          >
+            <FontAwesomeIcon icon={darkMode ? faSun : faMoon} />
+          </Button>
+        </div>
       </div>
 
       <div className="d-flex mb-3">
@@ -69,7 +97,7 @@ const ProductTable: React.FC<ProductTableProps> = ({
         />
       </div>
 
-      <table className="table table-striped table-hover">
+      <table className="table  table-hover">
         <thead className="thead-dark">
           <tr>
             <th>Name</th>

@@ -14,7 +14,7 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
   handleDelete,
 }) => {
   return (
-    <Modal show={show} onHide={handleClose}>
+    <Modal show={show} onHide={handleClose} centered>
       <Modal.Header closeButton>
         <Modal.Title>Confirm Deletion</Modal.Title>
       </Modal.Header>

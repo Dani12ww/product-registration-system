@@ -23,20 +23,45 @@ const ProductForm: React.FC<ProductFormProps> = ({
     in_stock: true,
   });
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   useEffect(() => {
     if (editingProduct) {
       setProduct(editingProduct);
+    } else {
+      // Reset form when there's no product being edited
+      setProduct({
+        id: 0,
+        name: "",
+        description: "",
+        price: 0,
+        in_stock: true,
+      });
     }
   }, [editingProduct]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
+
     try {
       await addOrEditProduct(product);
       notifySuccess("Product saved successfully!");
       fetchProducts();
+      if (!editingProduct) {
+        // Clear form if not in editing mode
+        setProduct({
+          id: 0,
+          name: "",
+          description: "",
+          price: 0,
+          in_stock: true,
+        });
+      }
     } catch (error) {
       notifyError("Error saving product");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -50,6 +75,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
           value={product.name}
           onChange={(e) => setProduct({ ...product, name: e.target.value })}
           required
+          disabled={isSubmitting}
         />
       </div>
       <div className="form-group">
@@ -62,6 +88,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
             setProduct({ ...product, description: e.target.value })
           }
           required
+          disabled={isSubmitting}
         />
       </div>
       <div className="form-group">
@@ -71,9 +98,10 @@ const ProductForm: React.FC<ProductFormProps> = ({
           className="form-control"
           value={product.price}
           onChange={(e) =>
-            setProduct({ ...product, price: parseFloat(e.target.value) })
+            setProduct({ ...product, price: parseFloat(e.target.value) || 0 })
           }
           required
+          disabled={isSubmitting}
         />
       </div>
       <div className="form-group">
@@ -84,14 +112,21 @@ const ProductForm: React.FC<ProductFormProps> = ({
           onChange={(e) =>
             setProduct({ ...product, in_stock: e.target.value === "true" })
           }
+          disabled={isSubmitting}
         >
           <option value="true">Yes</option>
           <option value="false">No</option>
         </select>
       </div>
-      <button type="submit" className="btn btn-primary">
-        Save
-      </button>
+      <div className="d-flex justify-content-end">
+        <button
+          type="submit"
+          className="btn btn-primary mt-3"
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? "Saving..." : "Save"}
+        </button>
+      </div>
     </form>
   );
 };
