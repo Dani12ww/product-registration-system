@@ -18,4 +18,14 @@ class ProductViewSet(viewsets.ModelViewSet):
     search_fields = ['name', 'description']
     ordering_fields = ['name', 'price']
     pagination_class = ProductPagination
-
+    
+    """krijo nje path tjeter product2 
+    
+    
+    
+    
+    cdo funksionalitet crud beje me functions views
+    
+    
+    
+    """
