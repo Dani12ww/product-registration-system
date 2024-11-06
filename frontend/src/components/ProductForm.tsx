@@ -1,132 +1,92 @@
-import React, { useState, useEffect } from "react";
-import { Product, addOrEditProduct } from "./ProductService";
+import React, { useEffect } from 'react';
+import { Product, addOrEditProduct } from '../components/ProductService';
+import { useNotification } from '../contexts/NotificationContext';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
 
 interface ProductFormProps {
-  fetchProducts: () => void;
   editingProduct: Product | null;
-  notifySuccess: (message: string) => void;
-  notifyError: (message: string) => void;
+  handleClose: () => void;
 }
 
-const ProductForm: React.FC<ProductFormProps> = ({
-  fetchProducts,
-  editingProduct,
-  notifySuccess,
-  notifyError,
-}) => {
-  const [product, setProduct] = useState<Product>({
-    id: 0,
-    name: "",
-    description: "",
-    price: 0,
-    in_stock: true,
+const ProductForm: React.FC<ProductFormProps> = ({ editingProduct, handleClose }) => {
+  const { notifySuccess, notifyError } = useNotification();
+
+  // Formik validation schema
+  const validationSchema = Yup.object({
+    name: Yup.string().required('Name is required'),
+    description: Yup.string().required('Description is required'),
+    price: Yup.number()
+      .required('Price is required')
+      .min(0, 'Price cannot be negative'),
+    in_stock: Yup.boolean().required('Stock status is required'),
   });
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  // Initial values for Formik
+  const initialValues: Product = editingProduct || {
+    id: 0,
+    name: '',
+    description: '',
+    price: 0,
+    in_stock: true,
+  };
 
-  useEffect(() => {
-    if (editingProduct) {
-      setProduct(editingProduct);
-    } else {
-      // Reset form when there's no product being edited
-      setProduct({
-        id: 0,
-        name: "",
-        description: "",
-        price: 0,
-        in_stock: true,
-      });
-    }
-  }, [editingProduct]);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
+  // Form submission handler
+  const handleSubmit = async (values: Product, { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }) => {
     try {
-      await addOrEditProduct(product);
-      notifySuccess("Product saved successfully!");
-      fetchProducts();
-      if (!editingProduct) {
-        // Clear form if not in editing mode
-        setProduct({
-          id: 0,
-          name: "",
-          description: "",
-          price: 0,
-          in_stock: true,
-        });
-      }
+      await addOrEditProduct(values);
+      notifySuccess('Product saved successfully!');
+      handleClose();
     } catch (error) {
-      notifyError("Error saving product");
+      notifyError('Error saving product');
     } finally {
-      setIsSubmitting(false);
+      setSubmitting(false);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="form-group">
-        <label>Name</label>
-        <input
-          type="text"
-          className="form-control"
-          value={product.name}
-          onChange={(e) => setProduct({ ...product, name: e.target.value })}
-          required
-          disabled={isSubmitting}
-        />
-      </div>
-      <div className="form-group">
-        <label>Description</label>
-        <input
-          type="text"
-          className="form-control"
-          value={product.description}
-          onChange={(e) =>
-            setProduct({ ...product, description: e.target.value })
-          }
-          required
-          disabled={isSubmitting}
-        />
-      </div>
-      <div className="form-group">
-        <label>Price</label>
-        <input
-          type="number"
-          className="form-control"
-          value={product.price}
-          onChange={(e) =>
-            setProduct({ ...product, price: parseFloat(e.target.value) || 0 })
-          }
-          required
-          disabled={isSubmitting}
-        />
-      </div>
-      <div className="form-group">
-        <label>In Stock</label>
-        <select
-          className="form-control"
-          value={product.in_stock ? "true" : "false"}
-          onChange={(e) =>
-            setProduct({ ...product, in_stock: e.target.value === "true" })
-          }
-          disabled={isSubmitting}
-        >
-          <option value="true">Yes</option>
-          <option value="false">No</option>
-        </select>
-      </div>
-      <div className="d-flex justify-content-end">
-        <button
-          type="submit"
-          className="btn btn-primary mt-3"
-          disabled={isSubmitting}
-        >
-          {isSubmitting ? "Saving..." : "Save"}
-        </button>
-      </div>
-    </form>
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={handleSubmit}
+    >
+      {({ isSubmitting }) => (
+        <Form>
+          <div className="form-group">
+            <label htmlFor="name">Name</label>
+            <Field type="text" id="name" name="name" className="form-control" disabled={isSubmitting} />
+            <ErrorMessage name="name" component="div" className="text-danger" />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="description">Description</label>
+            <Field type="text" id="description" name="description" className="form-control" disabled={isSubmitting} />
+            <ErrorMessage name="description" component="div" className="text-danger" />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="price">Price</label>
+            <Field type="number" id="price" name="price" className="form-control" disabled={isSubmitting} />
+            <ErrorMessage name="price" component="div" className="text-danger" />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="in_stock">In Stock</label>
+            <Field as="select" id="in_stock" name="in_stock" className="form-control" disabled={isSubmitting}>
+              <option value="true">Yes</option>
+              <option value="false">No</option>
+            </Field>
+            <ErrorMessage name="in_stock" component="div" className="text-danger" />
+          </div>
+
+          <div className="d-flex justify-content-end">
+            <button type="submit" className="btn btn-primary mt-3" disabled={isSubmitting}>
+              {isSubmitting ? 'Saving...' : 'Save'}
+            </button>
+          </div>
+        </Form>
+      )}
+    </Formik>
   );
 };
 

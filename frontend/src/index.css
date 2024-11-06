@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&family=Handjet:wght@400;700&display=swap");
 
+/* Root Variables */
 :root {
   --bg-color: #e6dede;
   --text-color: #043071;
@@ -9,6 +10,8 @@
   --btn-text: #043071;
   --table-bg: #ffffff;
   --modal-bg: #ffffff;
+  --primary-color: #007bff;
+  --focus-outline: #00ccdd;
 }
 
 body.dark-mode {
@@ -22,6 +25,7 @@ body.dark-mode {
   --modal-bg: #444444;
 }
 
+/* General Styles */
 body,
 #content {
   margin: 0;
@@ -46,18 +50,20 @@ h1 {
   text-shadow: 0 0 2px rgba(255, 255, 255, 0.4);
   font-size: 3.5rem;
   margin: 0;
+  margin-bottom: 2rem;
 }
 
-h1 em {
-  font-style: normal;
-  color: #007bff;
-}
-
+/* Form Styles */
 .form-container {
   background: var(--form-bg);
   border-radius: 20px;
   padding: 2rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem; /* Space below the form container */
+}
+
+.form-group {
+  margin-bottom: 1.5rem; /* Ensure each form group has consistent spacing */
 }
 
 .form-group label {
@@ -72,17 +78,19 @@ h1 em {
 }
 
 .form-control:focus {
-  background: var(--table-bg);
-  color: var(--text-color);
-  border: 1px solid #007bff;
+  outline: none;
+  border: 1px solid var(--focus-outline);
+  box-shadow: 0 0 0 3px rgba(0, 204, 221, 0.25);
 }
 
+/* Button Styles */
 .btn-primary {
   background-color: var(--btn-bg);
   border-color: #ced4da;
   color: var(--btn-text);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border-radius: 12px;
+  margin-top: 1rem; /* Space above buttons to separate them from the form */
 }
 
 .btn-primary:hover {
@@ -91,8 +99,14 @@ h1 em {
   color: var(--btn-text);
 }
 
+.toggle-btn {
+  color: var(--text-color);
+}
+
+/* Table Styles */
 .table-container {
   margin-top: 2rem;
+  overflow-x: auto;
 }
 
 .table {
@@ -101,6 +115,7 @@ h1 em {
   background: var(--table-bg);
   border-radius: 20px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  table-layout: fixed; /* Prevents table resizing when content is too long */
 }
 
 .table th,
@@ -108,19 +123,15 @@ h1 em {
   padding: 0.75rem;
   text-align: left;
   color: var(--text-color);
+  word-wrap: break-word; /* Prevents long text from overflowing */
 }
 
 .table th {
   background: #f1f1f1;
-  text-wrap: nowrap;
-}
-
-.table td {
-  background: var(--table-bg);
 }
 
 .table tbody tr:hover {
-  background-color: #f8f9fa;
+  background-color: var(--btn-hover-bg);
 }
 
 .table-actions {
@@ -129,6 +140,7 @@ h1 em {
 }
 
 .table-actions button {
+  display: flex;
   align-items: center;
   justify-content: center;
   padding: 0.7rem;
@@ -144,6 +156,7 @@ h1 em {
   background: var(--btn-hover-bg);
 }
 
+/* Pagination Styles */
 .pagination {
   display: flex;
   justify-content: center;
@@ -164,15 +177,14 @@ h1 em {
 
 .pagination button:hover {
   background: var(--btn-hover-bg);
-  color: #0056b3;
 }
 
 .pagination button.active {
-  background: var(--btn-bg);
-  color: var(--text-color);
-  border-color: #fff;
+  background: var(--primary-color);
+  color: #fff;
 }
 
+/* Modal Styles */
 .custom-modal .modal-content {
   background: var(--modal-bg);
   border: none;
@@ -188,12 +200,12 @@ h1 em {
 }
 
 .custom-modal .modal-header .btn-close {
-  color: var(--text-color) !important;
+  color: var(--text-color);
   opacity: 1;
 }
 
 .custom-modal .modal-header .btn-close:hover {
-  color: #000 !important;
+  color: #000;
 }
 
 .custom-modal .modal-body {
@@ -210,16 +222,66 @@ h1 em {
   padding-top: 1.5rem;
 }
 
-.custom-modal .modal-title {
-  font-family: "Handjet", monospace;
-  text-align: center;
-  text-transform: uppercase;
+/* Dark Mode Overrides */
+body.dark-mode,
+body.dark-mode #content {
+  background: radial-gradient(#2e2e2e, #111111);
   color: var(--text-color);
-  text-shadow: 0 0 2px rgba(255, 255, 255, 0.4);
-  font-size: 2rem;
-  margin-bottom: 1rem;
 }
 
+body.dark-mode h1 {
+  color: #c1e2dd;
+  text-shadow: 0 0 4px rgba(255, 255, 255, 0.4);
+}
+
+body.dark-mode .form-container {
+  background: radial-gradient(#333333, #111111);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+}
+
+body.dark-mode .form-control {
+  background: #555555;
+  color: #c1e2dd;
+}
+
+body.dark-mode .form-control:focus {
+  border: 1px solid var(--focus-outline);
+  box-shadow: 0 0 0 3px rgba(0, 204, 221, 0.25);
+}
+
+body.dark-mode .btn-primary {
+  background-color: #00ccdd;
+  border-color: #00ccdd;
+  color: #053339;
+}
+
+body.dark-mode .btn-primary:hover {
+  background-color: #0099aa;
+}
+
+/* Dark Mode Overrides for Table */
+body.dark-mode .table {
+  background: #333333; /* Dark background for table */
+}
+
+body.dark-mode .table th,
+body.dark-mode .table td {
+  color: #ffffff; /* White text for better contrast */
+}
+
+body.dark-mode .table th {
+  background: #444444; /* Slightly darker background for headers */
+}
+
+body.dark-mode .table td {
+  background: #000000; /* Slightly darker background for headers */
+}
+
+body.dark-mode .table tbody tr:hover {
+  background-color: #555555; /* Highlight hovered row in dark mode */
+}
+
+/* Responsive Styles */
 @media (max-width: 768px) {
   .table-container {
     padding: 1rem;
@@ -280,102 +342,4 @@ h1 em {
   .custom-modal .modal-body {
     padding: 0.5rem;
   }
-}
-
-body.dark-mode,
-body.dark-mode #content {
-  background: radial-gradient(#2e2e2e, #111111);
-  color: #14796a;
-}
-
-body.dark-mode h1 {
-  color: #c1e2dd;
-  text-shadow: 0 0 4px rgba(255, 255, 255, 0.4);
-}
-
-body.dark-mode h1 em {
-  color: #00ccdd;
-}
-
-body.dark-mode .form-container {
-  background: radial-gradient(#333333, #111111);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
-}
-
-body.dark-mode .form-group label {
-  color: #05443b;
-}
-
-body.dark-mode .form-control {
-  background: #555555;
-  color: #c1e2dd;
-  border: 1px solid #00ccdd;
-}
-
-body.dark-mode .form-control:focus {
-  background: #666666;
-  color: #c1e2dd;
-  border: 1px solid #00ccdd;
-}
-
-body.dark-mode .btn-primary {
-  background-color: #00ccdd;
-  border-color: #00ccdd;
-  color: #053339;
-}
-
-body.dark-mode .btn-primary:hover {
-  background-color: #0099aa;
-  border-color: #0099aa;
-}
-
-body.dark-mode .table {
-  background: #222222;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
-}
-
-body.dark-mode .table th {
-  background: #444444;
-  color: #c1e2dd;
-}
-
-body.dark-mode .table td {
-  background: #333333;
-  color: #c1e2dd;
-}
-
-body.dark-mode .pagination button {
-  background: #444444;
-  color: #c1e2dd;
-}
-
-body.dark-mode .pagination button.active {
-  background: #00ccdd;
-  color: #053339;
-}
-
-body.dark-mode .custom-modal .modal-content {
-  background: radial-gradient(#333333, #111111);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
-}
-
-body.dark-mode .custom-modal .modal-header {
-  color: #05443b;
-}
-
-body.dark-mode .custom-modal .modal-body {
-  color: #05443b;
-}
-
-body.dark-mode .custom-modal .modal-title {
-  color: #05443b;
-  text-shadow: 0 0 4px rgba(255, 255, 255, 0.4);
-}
-
-body.dark-mode .toggle-btn {
-  color: #00eeff;
-}
-
-.toggle-btn {
-  color: var(--text-color, #043071);
 }

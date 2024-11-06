@@ -1,18 +1,24 @@
-import React from "react";
-import ProductTable from "./components/ProductTable";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import React from 'react';
+import ProductTable from './components/ProductTable';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { NotificationProvider } from './contexts/NotificationContext';
+import { ThemeProvider } from './contexts/ThemeContext';
+import { ProductProvider } from './contexts/ProductContext';
 
 const App: React.FC = () => {
-  const notifySuccess = (message: string) => toast.success(message);
-  const notifyError = (message: string) => toast.error(message);
-
   return (
-    <div id="content">
-      <ToastContainer />
-      <h1>Product Management</h1>
-      <ProductTable notifySuccess={notifySuccess} notifyError={notifyError} />
-    </div>
+    <NotificationProvider>
+      <ThemeProvider>
+        <ProductProvider>
+          <div id="content" className="app container py-4">
+            <ToastContainer />
+            <h1 className="text-center mb-4">Product Management</h1>
+            <ProductTable />
+          </div>
+        </ProductProvider>
+      </ThemeProvider>
+    </NotificationProvider>
   );
 };
 

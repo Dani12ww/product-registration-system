@@ -1,6 +1,5 @@
-// src/components/DeleteModal.tsx
-import React from "react";
-import { Modal, Button } from "react-bootstrap";
+import React from 'react';
+import { Modal, Button } from 'react-bootstrap';
 
 interface DeleteModalProps {
   show: boolean;
@@ -8,11 +7,7 @@ interface DeleteModalProps {
   handleDelete: () => void;
 }
 
-const DeleteModal: React.FC<DeleteModalProps> = ({
-  show,
-  handleClose,
-  handleDelete,
-}) => {
+const DeleteModal: React.FC<DeleteModalProps> = ({ show, handleClose, handleDelete }) => {
   return (
     <Modal show={show} onHide={handleClose} centered>
       <Modal.Header closeButton>
